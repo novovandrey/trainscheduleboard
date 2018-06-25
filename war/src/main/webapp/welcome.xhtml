@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<h:head>
+
+    <h:outputScript library="js" name="jquery.js"/>
+    <h:outputStylesheet library="css" name="materialize.min.css"/>
+    <h:outputScript library="js" name="materialize.min.js"/>
+    <h:outputScript library="js" name="custom_index.js"/>
+    <h:outputStylesheet library="css" name="custom_css.css"/>
+
+    <title>Train Schedule Board</title>
+</h:head>
+<h:body style="margin-left:50px">
+
+    <p id ="header" class="flow-text">Train Schedule Board</p>
+
+    <!--<div>Загрузка</div>-->
+    <div class="container">
+        <div class="card-panel row">
+            <div class="input-field col s3 m3">
+                <h:selectOneMenu id="selectedTest1">
+                    <f:selectItem />
+                    <f:selectItems  value="#{serviceBean.listStation}" var="c"
+                                   itemLabel="#{c.stationname}" itemValue="#{c.id}" />
+                </h:selectOneMenu>
+                <label>Select station</label>
+            </div>
+            <label>Current date</label>
+            <h:outputText id="selectedTest" value="#{serviceBean.now}">
+                <f:convertDateTime pattern="dd.MM.yyyy" type="date" />
+            </h:outputText>
+        </div>
+        <div class="card-panel">
+
+            <h:form id="table">
+                <h:dataTable class="footable table table-stripped" var="schedule" value="#{serviceBean.listProduct}">
+                    <h:column>
+                        <f:facet name="header">TrainCode</f:facet>
+                        #{schedule.traincode}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Department Station</f:facet>
+                        #{schedule.depstationname}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Departure Date</f:facet>
+                        <h:outputText value="#{schedule.arrivaldate}" >
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Arrival Station</f:facet>
+                        #{schedule.arrstationname}
+                    </h:column>
+                </h:dataTable>
+                <p:poll update="table" interval="10" />
+            </h:form>
+        </div>
+    </div>
+
+</h:body>
+
+
+</html>
